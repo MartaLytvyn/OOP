@@ -2,41 +2,43 @@
 #include <fstream>
 #include "receipt.h"
 
-int toKop (const money &m){
-    return m.grn * 100 + m.kop;
-}
-
-void fromKop (money &m, int totalKop)
-{
-m.grn = totalKop / 100;
-m.kop = totalKop % 100;
-}
-
 void init(money &m, int g, short int k) {
     m.grn = g + k / 100;
     m.kop = k % 100;
 }
 
 void add(money &result, const money &a, const money &b) {
-    int totalK = toKop(a) + toKop(b);
-    fromKop (result, totalK); 
+    result.grn = a.grn + b.grn;
+    result.kop = a.kop + b.kop;
+
+    if (result.kop >= 100) {
+        result.grn += result.kop / 100;
+        result.kop %= 100;
+    }
 }
 
 void multiply(money &result, const money &m, int quantity) {
-    int totalK = toKop(m) * quantity;
-    fromKop(result, totalK);
+    result.grn = m.grn * quantity;
+    result.kop = m.kop * quantity;
+
+    if (result.kop >= 100) {
+        result.grn += result.kop / 100;
+        result.kop %= 100;
+    }
 }
 
 void round(money &m) {
-    int totalK = toKop(m);
-    int remainder = totalK % 10;
+    int remainder = m.kop % 10;
 
     if (remainder >= 8)
-        totalK += (10 - remainder);
+        m.kop += (10 - remainder);
     else
-        totalK -= remainder;
+        m.kop -= remainder;
 
-        fromKop(m, totalK);
+    if (m.kop >= 100) {
+        m.grn += 1;
+        m.kop -= 100;
+    }
 }
 
 void print(const money &m) {
@@ -52,7 +54,6 @@ void calculateReceipt(money &total) {
         return;
     };
     init(total, 0, 0);   
-
     int g, k, quantity;
 
     while (file >> g >> k >> quantity) {
