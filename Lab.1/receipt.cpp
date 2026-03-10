@@ -2,11 +2,6 @@
 #include <fstream>
 #include "receipt.h"
 
-void init(money &m, int g, short int k) {
-    m.grn = g + k / 100;
-    m.kop = k % 100;
-}
-
 void add(money &result, const money &a, const money &b) {
     result.grn = a.grn + b.grn;
     result.kop = a.kop + b.kop;
@@ -53,7 +48,8 @@ void calculateReceipt(money &total) {
         cout << "Помилка відкриття файлу!" << endl;
         return;
     };
-    init(total, 0, 0);   
+    total.grn = 0;
+    total.kop = 0; 
     int g, k, quantity;
 
     while (file >> g >> k >> quantity) {
@@ -64,7 +60,8 @@ void calculateReceipt(money &total) {
        }
 
         money cina;
-        init(cina, g, k);
+        cina.grn = g;
+        cina.kop = k; 
 
         money sum;
         multiply(sum, cina, quantity);
