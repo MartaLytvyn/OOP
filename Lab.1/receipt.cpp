@@ -1,4 +1,46 @@
-    void calculateReceipt(money &total) {
+#include <iostream>
+#include <fstream>
+#include "receipt.h"
+
+void add(money &result, const money &a, const money &b) {
+    result.grn = a.grn + b.grn;
+    result.kop = a.kop + b.kop;
+
+    if (result.kop >= 100) {
+        result.grn += result.kop / 100;
+        result.kop %= 100;
+    }
+}
+
+void multiply(money &result, const money &m, int quantity) {
+    result.grn = m.grn * quantity;
+    result.kop = m.kop * quantity;
+
+    if (result.kop >= 100) {
+        result.grn += result.kop / 100;
+        result.kop %= 100;
+    }
+}
+
+void round(money &m) {
+    int remainder = m.kop % 10;
+
+    if (remainder >= 8)
+        m.kop += (10 - remainder);
+    else
+        m.kop -= remainder;
+
+    if (m.kop >= 100) {
+        m.grn += 1;
+        m.kop -= 100;
+    }
+}
+
+void print(const money &m) {
+    cout << m.grn << " грн "
+    << m.kop << " коп" << endl;
+}
+     void calculateReceipt(money &total) {
     
     ifstream file("input.txt");
     if (!file) {
