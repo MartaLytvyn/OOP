@@ -1,0 +1,10 @@
+#include <iostream>
+#include "triangle.h"
+
+using namespace std;
+
+int main()
+{
+    RunProgram();
+    return 0;
+}
