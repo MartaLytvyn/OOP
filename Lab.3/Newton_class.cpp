@@ -1,5 +1,8 @@
 #include "Newton_class.h"
 #include <cmath>
+#include <stdexcept>
+#include <iostream>
+using namespace std;
 
 Newton_class::Newton_class() {}
 
@@ -17,12 +20,18 @@ void Newton_class::setTolerance(double vol_eps)
 
 double Newton_class::f(double x)
 {
-    return x * x - 4;
+    if (fabs(x) < 1e-9)
+        throw runtime_error("Division by zero in f(x)");
+
+    return cos(2/x) - 2 * sin(1/x) + 1/x;
 }
 
 double Newton_class::df(double x)
 {
-    return 2 * x;
+    if (fabs(x) < 1e-9) 
+        throw runtime_error("Division by zero in df(x)");
+
+    return (2*sin(2/x) + 2*cos(1/x) - 1) / (x*x);
 }
 
 int Newton_class::count(double &x)
@@ -32,8 +41,11 @@ int Newton_class::count(double &x)
 
     do
     {
-        if (df(x) == 0)
+        if (fabs(df(x)) < 1e-9)
+        {
+            cerr << "Derivative too small, cannot continue\n";
             return -1;
+        }
 
         x1 = x - f(x) / df(x);
 
