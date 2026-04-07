@@ -1,34 +1,39 @@
 #include <iostream>
-#include "Dyhotomia_class.h"
 #include "Newton_class.h"
-
+#include "Dyhotomia_class.h"
 using namespace std;
-
 int main()
 {
-    double x;
+    Newton_class newton;
+    newton.setStart(1.1);       
+    newton.setTolerance(1e-9);  
 
-    Dyhotomia_class *dyh = new Dyhotomia_class();
-    dyh->setVolumes(0, 3);
-    dyh->setTolerance(0.0001);
+    double rootNewton;
+    int statusNewton = newton.count(rootNewton);
 
-    if (dyh->count(x) == 0)
-        cout << "Dyhotomia root: " << x << endl;
+    if (statusNewton == 0)
+        cout << "Root (Newton) = " << rootNewton << std::endl;
+    else if (statusNewton == -1)
+        cout << "Newton method failed: derivative too small" << std::endl;
     else
-        cout << "Error in Dyhotomia method\n";
+        cout << "Newton method failed" << std::endl;
 
-    delete dyh;
 
-    Newton_class *newt = new Newton_class();
-    newt->setStart(3);
-    newt->setTolerance(0.0001);
+    Dyhotomia_class dyho;
+    dyho.setVolumes(1.0, 2.0);  
+    dyho.setTolerance(1e-9);
 
-    if (newt->count(x) == 0)
-        cout << "Newton root: " << x << endl;
+    double rootDyho;
+    int statusDyho = dyho.count(rootDyho);
+
+    if (statusDyho == 0)
+        cout << "Root (Dichotomy) = " << rootDyho << std::endl;
+    else if (statusDyho == -1)
+        cout << "Dichotomy method failed: function has same sign at ends" << std::endl;
+    else if (statusDyho == -2)
+        cout << "Dichotomy method failed: interval contains zero" << std::endl;
     else
-        cout << "Error in Newton method\n";
-
-    delete newt;
+        cout << "Dichotomy method failed" << std::endl;
 
     return 0;
 }
