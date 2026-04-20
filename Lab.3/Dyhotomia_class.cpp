@@ -1,6 +1,5 @@
 #include "Dyhotomia_class.h"
 #include <cmath>
-#include <stdexcept>
 #include <iostream>
 using namespace std;
 Dyhotomia_class::Dyhotomia_class() {}
@@ -41,7 +40,9 @@ int Dyhotomia_class::count(double &x)
         cerr << "Function has same sign at ends of interval\n";
         return -1;
     }
-
+// int ~Dyhotomia_class ::(double &;
+// delete obj;
+int iterrations =0;
     while (fabs(b - a) > eps)
     {
         x = (a + b) / 2;
@@ -51,7 +52,8 @@ int Dyhotomia_class::count(double &x)
         else
             a = x;
     }
-
     x = (a + b) / 2;
+    iterrations ++;
+    cout << "Iterrations: " << iterrations << endl;
     return 0;
 }
