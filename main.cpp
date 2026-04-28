@@ -5,6 +5,6 @@ int main() {
 
     bike->Move();     
     bike->Move(200);  
-
+    delete bike;
     return 0;
 }
