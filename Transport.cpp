@@ -1,4 +1,24 @@
-#include "Transport.h"
+   #include "Transport.h"
+
+Transport::~Transport() {
+    cout << "Transport destroyed\n";
+}
+
+Car::~Car() {
+    cout << "Car destroyed\n";
+}
+
+Bike::~Bike() {
+    cout << "Bike destroyed\n";
+}
+
+SportBike::~SportBike() {
+    cout << "SportBike destroyed\n";
+}
+
+RacingBike::~RacingBike() {
+    cout << "RacingBike destroyed\n";
+}
 
 int Transport::SetType(string t) {
     type = t;
@@ -15,11 +35,6 @@ int Transport::SetSound(string s) {
     return 1;
 }
 
-int Transport::Move() {
-    cout << "???";
-    return 1;
-}
-
 int Transport::CreateTransport() {
     cout << "Має " << wheels << " колеса, тип: "
          << type << ". Звук: " << sound << endl;
@@ -31,7 +46,6 @@ Car::Car() {
     SetWheels(4);
     SetSound("тихий");
     CreateTransport();
-    Move();
 }
 
 int Car::Move() {
@@ -39,12 +53,12 @@ int Car::Move() {
     return 1;
 }
 
+
 Bike::Bike() {
     SetType("Мотоцикл");
     SetWheels(2);
     SetSound("гучний");
     CreateTransport();
-    Move();
 }
 
 int Bike::Move() {
@@ -76,10 +90,12 @@ int RacingBike::SetRider(string r) {
     rider = r;
     return 1;
 }
+
 int RacingBike::Move() {
     cout << "Гоночний мотоцикл їде" << endl;
     return 1;
 }
+
 int RacingBike::Move(int speed) {
     cout << "Їде зі швидкістю " << speed << " км/год" << endl;
     return 1;
