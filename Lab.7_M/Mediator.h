@@ -1,8 +1,8 @@
 #ifndef MEDIATOR_H
 #define MEDIATOR_H
+#include <iostream>
 #include <string>
 using namespace std;
-
 class Participant;
 
 class Participant {
